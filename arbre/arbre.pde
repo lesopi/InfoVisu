@@ -19,7 +19,8 @@ void leaf() {
   fill(red,green,blue);
   stroke(red,green,blue);
   vertex(100.0, -70.0);
-  bezierVertex(90.0, -60.0, 40.0, -100.0, 0.0, 0.0);
+  bezierVertex(90.0, -60.0, 100.0, -100.0, 0.0, 0.0);
+  // forme toute moche!!!
   bezierVertex(0.0, 0.0, 100.0, 40.0, 100.0, -70.0);
   endShape();
 }
