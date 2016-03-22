@@ -29,10 +29,10 @@ void mouseDragged() {
   float delta = (abs(mouseY - posY) - abs(mouseX - posX)); 
   if(delta > 0) {
     if(mouseY > posY && angleX <= PI/3) {
-      angleX = min(angleX + speed * PI/36, PI/3); 
+        angleX = max(angleX - speed * PI/36, -PI/3); 
     }
     if(mouseY < posY && angleX >= -PI/3) {
-      angleX = max(angleX - speed * PI/36, -PI/3); 
+        angleX = min(angleX + speed * PI/36, PI/3); 
     }
   } else {
     if(mouseX > posX && angleZ <= PI/3) {
