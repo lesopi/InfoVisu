@@ -11,10 +11,11 @@ float posX = 0.0;
 float posY = 0.0;
 
 //radius of our sphere
-float radius = 20;
+float radius = 13;
 
 // physic constants
-float gravityConstant = 0.327;
+float gravityConstant = 0.2;
+//0.327;
 float mu = 0.01;
 float rebondcoeff = 0.5;
 
@@ -29,6 +30,6 @@ boolean shiftMode= false;
 ArrayList<PVector> obstacles = new ArrayList<PVector>();
 
 //constant for the cylinder construction
-float cylinderBaseSize = 15;
-float cylinderHeight = 30;
+float cylinderBaseSize = 25;
+float cylinderHeight = 50;
 int cylinderResolution = 40;
