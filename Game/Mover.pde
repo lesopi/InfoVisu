@@ -45,8 +45,20 @@ class Mover {
     }
   }
 
-
+  // find in which subplate we need to check
   void checkCylinderCollision() {
+    if (location.x < width/2) {
+      if (location.y < height/2) {
+        checkArray(nw);
+      } else checkArray(sw);
+    } else {
+      if (location.y < height/2) {
+        checkArray(ne);
+      } else checkArray(se);
+    }
+  }
+
+  void checkArray(ArrayList<PVector> obstacles) {
     // check that the ball doesn't go inside a cylinder
     // and that it bounces on it
     for (PVector o : obstacles) {

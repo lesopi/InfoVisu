@@ -15,7 +15,6 @@ float radius = 13;
 
 // physic constants
 float gravityConstant = 0.2;
-//0.327;
 float mu = 0.01;
 float rebondcoeff = 0.5;
 
@@ -27,9 +26,16 @@ float boxY = 10;
 boolean shiftMode= false;
 
 //contains the all the cylinder the user sets during shiftMode
-ArrayList<PVector> obstacles = new ArrayList<PVector>();
+ArrayList<PVector> obst = new ArrayList<PVector>();
+ArrayList<PVector> nw = new ArrayList<PVector>();
+ArrayList<PVector> ne = new ArrayList<PVector>();
+ArrayList<PVector> sw = new ArrayList<PVector>();
+ArrayList<PVector> se = new ArrayList<PVector>();
 
 //constant for the cylinder construction
 float cylinderBaseSize = 25;
 float cylinderHeight = 50;
 int cylinderResolution = 40;
+
+// height of the bottom surface
+int bSH = 100;
