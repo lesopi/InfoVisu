@@ -15,8 +15,8 @@ void setup() {
 void draw() {
   background(255);
   ambientLight(120, 120, 120); 
-  directionalLight(0, 0, 160, 1, 1, 0);
-  directionalLight(160, 0, 0, -1, 0, 0);
+  directionalLight(160, 160, 160, -1, 1, 0);
+  directionalLight(0, 0, 0, 1, 0, 0);
   if (shiftMode) {
     /*in shift mode we want to add cylinders to the plate
      */
@@ -38,7 +38,7 @@ void draw() {
     translate(width/2, height/2, 0); 
     rotateX(angleX); 
     rotateZ(angleZ);
-    fill(255);
+    fill(220);
     box(boxXZ, boxY, boxXZ);
 
     // draw cylinders on the plate

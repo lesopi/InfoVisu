@@ -23,7 +23,7 @@ class Mover {
   void display() {
     // draw the ball on the plate
     translate(mover.location.x, mover.location.y, mover.location.z);
-    fill(255);
+    fill(255, 0, 0);
     sphere(radius);
   }
 
