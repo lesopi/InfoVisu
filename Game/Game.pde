@@ -1,32 +1,67 @@
 Mover mover;
-
+PGraphics downBar;
+PGraphics topView;
+PGraphics scoreDisplay;
 
 void settings() {
-  size(800, 800, P3D);
+  size(800, 800,P3D);
 }
 
 
 void setup() {
   mover = new Mover();
+  make();
   noStroke();
+  // week 06
+  /*downBar = createGraphics(800,100,P3D);
+  topView = createGraphics(100,100,P3D);
+  scoreDisplay = createGraphics(100,100,P3D);*/
+  
 }
 
 
 void draw() {
+  
   background(255);
+  noLights();
+  
+   fill(255);
+   //week 06
+   /*
+  drawDownBar();
+  image(downBar,0,650);
+  drawTopView();
+  image(topView,0,650);
+  drawScore();
+  image(scoreDisplay,100,650);
+  */
+  
   ambientLight(120, 120, 120); 
   directionalLight(160, 160, 160, -1, 1, 0);
   directionalLight(0, 0, 0, 1, 0, 0);
+  
+ 
+  
   if (shiftMode) {
     /*in shift mode we want to add cylinders to the plate
      */
+    
     translate(width/2, height/2, 0); 
+    //add the sphere in the shift mode
+    pushMatrix();
+      translate(mover.location.x,mover.location.z,mover.location.y);
+      fill(255,0,0);
+      sphere(radius);
+    popMatrix();
+    //end of the sphere part
+    
     fill(255);
     box(boxXZ, boxXZ, boxY); 
     for (PVector o : obstacles) {
       fill(100);
       drawCylinder(o.x, o.y, 0, shiftMode);
     }
+    fill(100);
     drawCylinder(mouseX - width/2, mouseY - height/2, 0, shiftMode);
   } else {
     /*in this mode we want to drag the plate to move the ball
@@ -55,8 +90,8 @@ void draw() {
     mover.checkCylinderCollision();
     mover.display();
   }
+  
 }
-
 
 //not active in shiftMode, used to move the plate
 void mouseDragged() {
@@ -141,3 +176,9 @@ void mousePressed() {
     }
   }
 }
+//week06
+/*
+void updateScore(float gain){
+  previousScore = score;
+  score += gain;
+}*/
