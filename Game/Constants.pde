@@ -37,5 +37,13 @@ float cylinderBaseSize = 25;
 float cylinderHeight = 50;
 int cylinderResolution = 40;
 
+
+//keeps score week 06
+/*
+float score = 0.0;
+float previousScore = 0.0;
+
+
 // height of the bottom surface
 int bSH = 100;
+*/

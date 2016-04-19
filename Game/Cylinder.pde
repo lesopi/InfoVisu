@@ -54,7 +54,7 @@ void make() {
  * shift: if we are in shift mode we need to rotate the cylinder
  */
 void drawCylinder(float pX, float pY, float pZ, boolean shift) {
-  make();
+ 
   pushMatrix();
   translate(pX, pY, pZ);
 
