@@ -36,20 +36,20 @@ class Mover {
   void checkEdges() {
     // check that the ball doesn't go out of the plate
     if (location.x > boxXZ / 2) {
-      //updateScore(-1*velocity.mag());
+      updateScore(-1*velocity.mag());
       location.x = boxXZ / 2;
       velocity.x = velocity.x * -rebondcoeff;
     } else if (location.x < -boxXZ / 2) {
-      //updateScore(-1*velocity.mag());
+      updateScore(-1*velocity.mag());
       location.x = -boxXZ / 2;
       velocity.x = velocity.x * -rebondcoeff;
     }
     if (location.z > boxXZ / 2) {
-      //updateScore(-.1*velocity.mag());
+      updateScore(-.1*velocity.mag());
       location.z = boxXZ / 2;
       velocity.z = velocity.z * -rebondcoeff;
     } else if (location.z < -boxXZ / 2) {
-      //updateScore(-.1*velocity.mag());
+      updateScore(-.1*velocity.mag());
       location.z = -boxXZ / 2;
       velocity.z = velocity.z * -rebondcoeff;
     }
@@ -76,7 +76,7 @@ class Mover {
       PVector swap = new PVector(o.x, o.z, o.y);
       if (location.dist(swap) < cylinderBaseSize + radius) {
         //a collision occurs 
-        //updateScore(velocity.mag());
+        updateScore(velocity.mag());
         // apply formula
         PVector n = PVector.sub(location, swap);
         n.normalize();
