@@ -1,10 +1,12 @@
+import java.util.*;
 Mover mover;
-//week 06
-/*
 PGraphics downBar;
 PGraphics topView;
 PGraphics scoreDisplay;
-*/
+PGraphics barChart;
+
+HScrollbar scroll;
+
 void settings() {
   size(800, 800,P3D);
 }
@@ -15,10 +17,11 @@ void setup() {
 
   make();
   noStroke();
-  // week 06
-  /*downBar = createGraphics(800,100,P3D);
+  scroll = new HScrollbar(200,720,600,20);
+  downBar = createGraphics(800,100,P3D);
   topView = createGraphics(100,100,P3D);
-  scoreDisplay = createGraphics(100,100,P3D);*/
+  scoreDisplay = createGraphics(100,100,P3D);
+  barChart = createGraphics(600,100,P3D);
   
 }
 
@@ -29,15 +32,17 @@ void draw() {
   noLights();
   
    fill(255);
-   //week 06
-   /*
+   
   drawDownBar();
   image(downBar,0,650);
   drawTopView();
   image(topView,0,650);
   drawScore();
   image(scoreDisplay,100,650);
-  */
+  drawbarChart();
+  image(barChart,200,650); 
+  scroll.display();
+  scroll.update();
   
   ambientLight(120, 120, 120); 
   directionalLight(160, 160, 160, -1, 1, 0);
@@ -58,7 +63,7 @@ void draw() {
     
     fill(255);
     box(boxXZ, boxXZ, boxY); 
-    for (PVector o : obst) {
+    for (PVector o : obstacles) {
       fill(100);
       drawCylinder(o.x, o.y, 0, shiftMode);
     }
@@ -77,7 +82,7 @@ void draw() {
     box(boxXZ, boxY, boxXZ);
 
     // draw cylinders on the plate
-    for (PVector o : obst) {
+    for (PVector o : obstacles) {
       pushMatrix();
       fill(100);
       drawCylinder(o.x, 0, o.y, shiftMode);
@@ -167,7 +172,7 @@ void mousePressed() {
     if ((abs(width/2 - mouseX) <=(boxXZ/2))&& (abs(height/2 - mouseY) <= (boxXZ/2))) {
       PVector pos = new PVector(mouseX - width/2, mouseY - height/2, 0);
       addCylinder(pos);
-      addif(obst, pos);
+      addif(obstacles, pos);
     }
   }
 }
@@ -244,9 +249,8 @@ void addif(ArrayList<PVector> obstacles, PVector pos) {
     }
   }
 }
-//week06
-/*
+
 void updateScore(float gain){
   previousScore = score;
   score += gain;
-}*/
+}

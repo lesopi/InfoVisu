@@ -1,3 +1,4 @@
+
 //represent fow rotated is the plate in direction X or Z
 float angleX = 0.0; 
 float angleZ = 0.0; 
@@ -26,7 +27,7 @@ float boxY = 10;
 boolean shiftMode= false;
 
 //contains the all the cylinder the user sets during shiftMode
-ArrayList<PVector> obst = new ArrayList<PVector>();
+ArrayList<PVector> obstacles = new ArrayList<PVector>();
 ArrayList<PVector> nw = new ArrayList<PVector>();
 ArrayList<PVector> ne = new ArrayList<PVector>();
 ArrayList<PVector> sw = new ArrayList<PVector>();
@@ -38,12 +39,25 @@ float cylinderHeight = 50;
 int cylinderResolution = 40;
 
 
-//keeps score week 06
-/*
+//keeps score 
 float score = 0.0;
 float previousScore = 0.0;
 
 
 // height of the bottom surface
 int bSH = 100;
-*/
+
+//height and width of a rectangle in the barchart
+float widthChart = 2;
+float heightChart = 2;
+
+//contains the hight of the score at a given time
+ArrayList<Integer> carre = new ArrayList<Integer>();
+//contains the second that already corresponds to a score (until one hour)
+HashSet<Integer> secondes = new HashSet<Integer>();
+//number of score we display in the bar chart
+int numberToDisplay = 100;
+//sampling value, every x value we save the score into carre ArrayList
+int sample = 2;
+//to what value correspond one square of the score 
+int valueSquare = 10;
