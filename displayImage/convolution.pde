@@ -4,9 +4,6 @@ PImage convolute(PImage img) {
                        { 12, 15, 12 }, 
                        { 9, 12, 9 }};
                        
-  /*float[][] kernel = { { 0, 0, 0 }, 
-                       { 0, 2, 0 }, 
-                       { 0, 0, 0 }};*/
   float weight = 1.f;
 
   // create a greyscale image (type: ALPHA) for output
@@ -35,7 +32,7 @@ PImage convolute(PImage img) {
           }
        }
        
-       somme /= 99; 
+       somme /= weight; 
        result.pixels[j*img.width + i] = color(somme); 
    }
  }
