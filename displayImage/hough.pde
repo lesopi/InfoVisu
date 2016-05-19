@@ -1,5 +1,5 @@
 import java.util.Collections;
-int minVotes = 50;
+
 
 // x part of the vector = r
 // y part of the vector = phi
@@ -59,12 +59,10 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
   }
 
   // You may want to resize the accumulator to make it easier to see:
-  houghImg.resize(400, 400);
 
-  houghImg.updatePixels();
 
   // size of the region we search for a local maximum
-  int neighbourhood = 10;
+ 
   // only search around lines with more that this amount of votes // (to be adapted to your image)
   int minVotes = 160;
   for (int accR = 0; accR < rDim; accR++) {

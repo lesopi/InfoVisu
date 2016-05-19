@@ -1,11 +1,11 @@
 import java.util.Random; 
 
 PImage img;
-float upperThresh = 134; 
-float lowerThresh = 100;
 
 
 void settings() {
+  //if the resolution of your computer is smaller you can replace with this resolution
+  //size(1200,300)
   size(1800, 450);
 }
 void setup() {
@@ -16,7 +16,11 @@ void setup() {
 void draw() {
   background(0); 
   PImage result = createImage(img.width, img.height, RGB); 
-
+  
+  //filter in function of hue of the image, the idea is to keep the green pixel
+  //of the image 
+  //it also applies a filter on the brigthness to avoid too luminous and too dark spot of the image
+  //applies after that a saturation filter to keep only the vivid pixels
   for (int i = 0; i < result.width * result.height; i++) {
     int hueG = (int)(hue(img.pixels[i]));
     if (hueG <= upperThresh && hueG >= lowerThresh) {
@@ -24,25 +28,26 @@ void draw() {
     } else {
       result.pixels[i] = color(0);
     }
-    if ((brightness(img.pixels[i]) < 6 || brightness(img.pixels[i]) > 250)) {
+    if ((brightness(img.pixels[i]) < brightnessLow || brightness(img.pixels[i]) > brightnessHigh)) {
       result.pixels[i] = color(0);
     }
-    if (saturation(img.pixels[i]) < 100) {
+    if (saturation(img.pixels[i]) < saturationTresh) {
       result.pixels[i] = color(0);
     }
   }
 
-
+//blur the image and remove the pixel with high brightness
   PImage blurResult = convolute(result);
   blurResult.updatePixels(); 
   for (int i = 0; i < blurResult.width * blurResult.height; i++) {
-    if (brightness(blurResult.pixels[i]) < 91) {
+    if (brightness(blurResult.pixels[i]) < intensityTresh) {
       blurResult.pixels[i] = color(0);
     } else {
       blurResult.pixels[i] = color(255);
     }
   }
   blurResult.updatePixels(); 
+
 
   PImage sobel = sobel(blurResult); 
 
@@ -72,7 +77,7 @@ void draw() {
     PVector c34 = intersection(l3, l4);
     PVector c41 = intersection(l4, l1);
 
-    if (graph.validArea(c12, c23, c34, c41, 3*img.width*img.height/2, 3000) && graph.isConvex(c12, c23, c34, c41) && graph.nonFlatQuad(c12, c23, c34, c41)) {
+    if (graph.validArea(c12, c23, c34, c41, 3*img.width*img.height/2, minimumArea) && graph.isConvex(c12, c23, c34, c41) && graph.nonFlatQuad(c12, c23, c34, c41)) {
       // Choose a random, semi-transparent colour
       Random random = new Random();
       fill(color(min(255, random.nextInt(300)), 

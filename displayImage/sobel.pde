@@ -1,13 +1,4 @@
 PImage sobel(PImage img) {
-
-  float[][] hKernel = { { 0, 1, 0 }, 
-    { 0, 0, 0 }, 
-    { 0, -1, 0 } };
-
-  float[][] vKernel = { { 0, 0, 0 }, 
-    { 1, 0, -1 }, 
-    { 0, 0, 0 } };
-
   PImage result = createImage(img.width, img.height, ALPHA);
 
   // clear the image
