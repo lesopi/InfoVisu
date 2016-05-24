@@ -65,7 +65,6 @@ class QuadGraph {
       for (int i = 1; i < cy.length; i++) {
         s += "," + cy[i];
       }
-      System.out.println(s);
     }
     return cycles;
   }
@@ -200,7 +199,7 @@ class QuadGraph {
 
     return ret;
   }
-  
+
   /** Check if a quad is convex or not.
    * 
    * Algo: take two adjacent edges and compute their cross-product. 
