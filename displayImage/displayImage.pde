@@ -1,26 +1,40 @@
-import java.util.Random; 
-
+import java.util.Random;
+import processing.video.*;
+Capture cam;
 PImage img;
+int i = 0;
 
 
 void settings() {
-  //if the resolution of your computer is smaller you can replace with this resolution
-  //size(1200,300)
-  size(1800, 450);
+  size(800, 600);
 }
 void setup() {
-  img = loadImage("board1.jpg");
-  noLoop(); // no interactive behaviour: draw() will be called only once.
+  frameRate(2f);
+  //img = loadImage("board1.jpg");
+  //noLoop(); // no interactive behaviour: draw() will be called only once.
+  String[] cameras = Capture.list();
+  if (cameras.length == 0) {
+    println("There are no cameras available for capture.");
+    exit();
+  } else {
+    /*println("Available cameras:");
+     for (int i = 0; i < cameras.length; i++) {
+     
+     println(cameras[i]);
+     }*/
+    cam = new Capture(this, cameras[0]);
+    cam.start();
+  }
 }
 
 void draw() {
+  //int upperThresh = (int) (thresholdBar.getPos()*255); 
+  //int lowerThresh = (int) (secondThresholdBar.getPos()*255); 
+
   background(0); 
+  img = cam.get();
   PImage result = createImage(img.width, img.height, RGB); 
-  
-  //filter in function of hue of the image, the idea is to keep the green pixel
-  //of the image 
-  //it also applies a filter on the brigthness to avoid too luminous and too dark spot of the image
-  //applies after that a saturation filter to keep only the vivid pixels
+
   for (int i = 0; i < result.width * result.height; i++) {
     int hueG = (int)(hue(img.pixels[i]));
     if (hueG <= upperThresh && hueG >= lowerThresh) {
@@ -28,19 +42,18 @@ void draw() {
     } else {
       result.pixels[i] = color(0);
     }
-    if ((brightness(img.pixels[i]) < brightnessLow || brightness(img.pixels[i]) > brightnessHigh)) {
+    if ((brightness(img.pixels[i]) < 6 || brightness(img.pixels[i]) > 250)) {
       result.pixels[i] = color(0);
     }
-    if (saturation(img.pixels[i]) < saturationTresh) {
+    if (saturation(img.pixels[i]) < 100) {
       result.pixels[i] = color(0);
     }
   }
 
-//blur the image and remove the pixel with high brightness
   PImage blurResult = convolute(result);
   blurResult.updatePixels(); 
   for (int i = 0; i < blurResult.width * blurResult.height; i++) {
-    if (brightness(blurResult.pixels[i]) < intensityTresh) {
+    if (brightness(blurResult.pixels[i]) < 91) {
       blurResult.pixels[i] = color(0);
     } else {
       blurResult.pixels[i] = color(255);
@@ -48,15 +61,16 @@ void draw() {
   }
   blurResult.updatePixels(); 
 
+  if (cam.available() == true) {
+    cam.read();
+  }
+  PImage sobel = sobel(blurResult);
+  image(img, 0, 0); 
 
-  PImage sobel = sobel(blurResult); 
 
-  sobel.resize(width/3, height); 
-
-  image(img, 0, 0, width/3, height); 
-  ArrayList<PVector> lines = hough(sobel, 4);
+  ArrayList<PVector> lines = hough(sobel, 8);
   getIntersections(lines, sobel.width, sobel.height);
-  image(sobel, 2*width/3, 0); 
+  // getIntersections(lines, sobel.width, sobel.height);
 
   QuadGraph graph = new QuadGraph(); 
   graph.build(lines, img.width, img.height); 
@@ -77,7 +91,7 @@ void draw() {
     PVector c34 = intersection(l3, l4);
     PVector c41 = intersection(l4, l1);
 
-    if (graph.validArea(c12, c23, c34, c41, 3*img.width*img.height/2, minimumArea) && graph.isConvex(c12, c23, c34, c41) && graph.nonFlatQuad(c12, c23, c34, c41)) {
+    if (graph.validArea(c12, c23, c34, c41, 3*img.width*img.height/2, 3000) && graph.isConvex(c12, c23, c34, c41) && graph.nonFlatQuad(c12, c23, c34, c41)) {
       // Choose a random, semi-transparent colour
       Random random = new Random();
       fill(color(min(255, random.nextInt(300)), 

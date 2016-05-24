@@ -1,6 +1,8 @@
 import java.util.Collections;
 
 
+
+
 // x part of the vector = r
 // y part of the vector = phi
 ArrayList<PVector> hough(PImage edgeImg, int nLines) {
@@ -11,12 +13,11 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
   int phiDim = (int) (Math.PI / discretizationStepsPhi);
   int rDim = (int) (((edgeImg.width + edgeImg.height) * 2 + 1) / discretizationStepsR);
 
-
   // our accumulator (with a 1 pix margin around)
   int[] accumulator = new int[(phiDim + 2) * (rDim + 2)];
   ArrayList<Integer> candidates = new ArrayList<Integer>();
-
-  // pre-compute the sin and cos values
+  
+    // pre-compute the sin and cos values
   float[] tabSin = new float[phiDim];
   float[] tabCos = new float[phiDim];
   float ang = 0;
@@ -59,12 +60,19 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
   }
 
   // You may want to resize the accumulator to make it easier to see:
+  houghImg.resize(400, 400);
 
+  houghImg.updatePixels();
+  /*for (int idx = 0; idx < accumulator.length; idx++) {
+   if(accumulator[idx] > minVotes){
+   candidates.add(idx);
+   }
+   }*/
 
   // size of the region we search for a local maximum
- 
+  int neighbourhood = 10;
   // only search around lines with more that this amount of votes // (to be adapted to your image)
-  int minVotes = 160;
+  int minVotes = 200;
   for (int accR = 0; accR < rDim; accR++) {
     for (int accPhi = 0; accPhi < phiDim; accPhi++) {
       // compute current index in the accumulator
@@ -72,6 +80,7 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
       if (accumulator[idx] > minVotes) {
         boolean bestCandidate=true;
         // iterate over the neighbourhood
+
         for (int dPhi=-neighbourhood/2; dPhi < neighbourhood/2+1; dPhi++) { // check we are not outside the image
           if ( accPhi+dPhi < 0 || accPhi+dPhi >= phiDim) continue;
           for (int dR=-neighbourhood/2; dR < neighbourhood/2 +1; dR++) {
@@ -95,6 +104,7 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
 
   Collections.sort(candidates, new HoughComparator(accumulator));
   for (int i = 0; i< min(nLines, candidates.size()); ++i) {   
+    //if (accumulator[idx] > 200) {
     int idx = candidates.get(i);
 
 
@@ -143,13 +153,10 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
         line(x2, y2, x3, y3);
     }
   }
-
-  image(houghImg, width/3, 0, width/3, height ); 
-
   return lines;
 }
 
-ArrayList<PVector> getIntersections(ArrayList<PVector> lines, int wid, int hei) {
+ArrayList<PVector> getIntersections(ArrayList<PVector> lines, int w, int h) {
   ArrayList<PVector> intersections = new ArrayList<PVector>();
   for (int i = 0; i < lines.size() - 1; i++) {
     PVector line1 = lines.get(i);
@@ -162,10 +169,11 @@ ArrayList<PVector> getIntersections(ArrayList<PVector> lines, int wid, int hei) 
 
       float y = (-line2.x*cos(line1.y) + line1.x*cos(line2.y))/d;
 
-      if (x > 0 && y > 0 && x < wid && y < hei ) {
+      if (x > 0 && y > 0 && x < w && y < h ) {
+        println("(" + x + ", " + y + ")");   
         fill(255, 128, 0);
         ellipse(x, y, 10, 10);
-        PVector ret = new PVector(x, y); 
+        PVector ret = new PVector(x, y);
         intersections.add(ret);
       }
     }

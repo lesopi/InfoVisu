@@ -1,5 +1,14 @@
 PImage convolute(PImage img) {
 
+  float[][] kernel = { { 9, 12, 9 }, 
+                       { 12, 15, 12 }, 
+                       { 9, 12, 9 }};
+                       
+  /*float[][] kernel = { { 0, 0, 0 }, 
+                       { 0, 2, 0 }, 
+                       { 0, 0, 0 }};*/
+  float weight = 1.f;
+
   // create a greyscale image (type: ALPHA) for output
   PImage result = createImage(img.width, img.height, RGB);
 
