@@ -19,24 +19,29 @@ float minimumArea = 3000;
 
 //constants for convolution
 
-  float[][] kernel = { { 9, 12, 9 }, 
-                       { 12, 15, 12 }, 
-                       { 9, 12, 9 }};
-  
-  float weight = 0.f;
- 
- //constant for hough
- 
- int minVotes = 50;
- 
- int neighbourhood = 10;
- 
- //constant for Sobel
- 
-  float[][] hKernel = { { 0, 1, 0 }, 
-    { 0, 0, 0 }, 
-    { 0, -1, 0 } };
+float[][] kernel = { { 9, 12, 9 }, 
+  { 12, 15, 12 }, 
+  { 9, 12, 9 }};
 
-  float[][] vKernel = { { 0, 0, 0 }, 
-    { 1, 0, -1 }, 
-    { 0, 0, 0 } };
+float weight = 0.f;
+
+//constant for hough
+
+int minVotes = 50;
+
+int neighbourhood = 10;
+
+//constant for Sobel
+
+float[][] hKernel = { { 0, 1, 0 }, 
+  { 0, 0, 0 }, 
+  { 0, -1, 0 } };
+
+float[][] vKernel = { { 0, 0, 0 }, 
+  { 1, 0, -1 }, 
+  { 0, 0, 0 } };
+  
+  ArrayList<PVector> intersections;
+  QuadGraph graph = new QuadGraph();
+
+boolean stat = true;
