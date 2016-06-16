@@ -28,7 +28,7 @@ class Mover {
   }
   
   void displayShift(){
-    translate(mover.location.x,mover.location.z,mover.location.y);
+    translate(mover.location.x, mover.location.z, mover.location.y);
     fill(255,0,0);
     sphere(radius);
   }

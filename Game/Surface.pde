@@ -1,4 +1,3 @@
-float ratio = boxXZ/100;
 //bar for display of information
 
 void drawDownBar() {

@@ -1,14 +1,19 @@
 import java.util.*;
+import processing.video.*;
+
 Mover mover;
 PGraphics downBar;
 PGraphics topView;
 PGraphics scoreDisplay;
 PGraphics barChart;
+ImageProcessing imgproc;
 
 HScrollbar scroll;
 
+Movie cam;
+
 void settings() {
-  size(800, 800,P3D);
+  size(800, 800, P3D);
 }
 
 
@@ -17,50 +22,60 @@ void setup() {
 
   make();
   noStroke();
-  scroll = new HScrollbar(200,720,600,20);
-  downBar = createGraphics(800,100,P3D);
-  topView = createGraphics(100,100,P3D);
-  scoreDisplay = createGraphics(100,100,P3D);
-  barChart = createGraphics(600,100,P3D);
-  
+  scroll = new HScrollbar(200, 780, 600, 20);
+  downBar = createGraphics(800, 100, P3D);
+  topView = createGraphics(100, 100, P3D);
+  scoreDisplay = createGraphics(100, 100, P3D);
+  barChart = createGraphics(600, 100, P3D);
+
+  cam = new Movie(this, "C:\\Users\\Sébastien\\Desktop\\EPFL\\BA4\\ProgVisu\\Projet\\Rendu Final\\Game\\data\\testvideo.mp4");
+  cam.loop();
+
+  img =  loadImage("C:\\Users\\Sébastien\\Desktop\\EPFL\\BA4\\ProgVisu\\Projet\\Rendu Final\\Game\\data\\board1.jpg");
+
+  imgproc = new ImageProcessing();
+  String []args = {"Image processing window"};
+  PApplet.runSketch(args, imgproc);
+  //...
 }
 
 
 void draw() {
-  
+
   background(255);
   noLights();
-  
-   fill(255);
-   
+
+  fill(255);
+
   drawDownBar();
-  image(downBar,0,650);
+  image(downBar, 0, 700);
   drawTopView();
-  image(topView,0,650);
+  image(topView, 0, 700);
   drawScore();
-  image(scoreDisplay,100,650);
+  image(scoreDisplay, 100, 700);
   drawbarChart();
-  image(barChart,200,650); 
+  image(barChart, 200, 700); 
   scroll.display();
   scroll.update();
-  
+
   ambientLight(120, 120, 120); 
   directionalLight(160, 160, 160, -1, 1, 0);
   directionalLight(0, 0, 0, 1, 0, 0);  
 
+  PVector rotation = imgproc.getRotation(); 
   if (shiftMode) {
     /*in shift mode we want to add cylinders to the plate
      */
-    
+
     translate(width/2, height/2, 0); 
     //add the sphere in the shift mode
     pushMatrix();
-      translate(mover.location.x,mover.location.z,mover.location.y);
-      fill(255,0,0);
-      sphere(radius);
+    translate(mover.location.x, mover.location.z, mover.location.y);
+    fill(255, 0, 0);
+    sphere(radius);
     popMatrix();
     //end of the sphere part
-    
+
     fill(255);
     box(boxXZ, boxXZ, boxY); 
     for (PVector o : obstacles) {
@@ -72,9 +87,12 @@ void draw() {
   } else {
     /*in this mode we want to drag the plate to move the ball
      */
+    angleX = rotation.x; 
+    angleZ = rotation.y; 
     //camera(width/2, height/2, 1000, width/2, height/2, 0, 0, 1, 0); 
     text("Rotation along X : " + degrees(angleX) + "   Rotation along Z" + degrees(angleZ) + "   Speed :" + speed, 30, 20); 
     //move the plate 
+
     translate(width/2, height/2, 0); 
     rotateX(angleX); 
     rotateZ(angleZ);
@@ -89,13 +107,18 @@ void draw() {
       popMatrix();
     }
 
+
     translate(0, -radius - boxY/2, 0);
     mover.update();
     mover.checkEdges();
     mover.checkCylinderCollision();
     mover.display();
   }
-  
+}
+
+// Called every time a new frame is available to read
+void movieEvent(Movie m) {
+  m.read();
 }
 
 //not active in shiftMode, used to move the plate
@@ -161,12 +184,12 @@ void keyReleased() {
 }
 
 /* place cylinders on the plate in shiftMode
-* idea: we divide the plate in 4 subplates: nw, sw, ne, se, and add the cylinder to the corresponding subplate
-* if there is a cylinder over 2 or 4 subplates, add it in all the corresponding subplates
-* the arraylist obst contains all the cylinders, we use it to draw faster
-*
-* remark: The complexity of this method is not the best, but we don't need to be fast in Shift mode
-*/
+ * idea: we divide the plate in 4 subplates: nw, sw, ne, se, and add the cylinder to the corresponding subplate
+ * if there is a cylinder over 2 or 4 subplates, add it in all the corresponding subplates
+ * the arraylist obst contains all the cylinders, we use it to draw faster
+ *
+ * remark: The complexity of this method is not the best, but we don't need to be fast in Shift mode
+ */
 void mousePressed() {
   if (shiftMode) {
     if ((abs(width/2 - mouseX) <=(boxXZ/2))&& (abs(height/2 - mouseY) <= (boxXZ/2))) {
@@ -250,7 +273,7 @@ void addif(ArrayList<PVector> obstacles, PVector pos) {
   }
 }
 
-void updateScore(float gain){
+void updateScore(float gain) {
   previousScore = score;
   score += gain;
 }
