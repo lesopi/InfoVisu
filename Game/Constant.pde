@@ -29,7 +29,7 @@ float weight = 0.f;
 
 //constant for hough
 
-int minVotes = 50;
+int minVotes = 30;
 
 int neighbourhood = 10;
 
@@ -52,8 +52,8 @@ boolean stat = false;
 
 PImage img; 
 //represent fow rotated is the plate in direction X or Z
-float angleX = 0.0; 
-float angleZ = 0.0; 
+float angleX; 
+float angleZ; 
 
 //change the speed of the rotation of the plate
 float speed = 1.0; 

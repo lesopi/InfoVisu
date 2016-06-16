@@ -1,8 +1,3 @@
-import java.util.List;
-
-import processing.core.PVector;
-import papaya.*;
-
 class TwoDThreeD {
 
   // default focal length, well suited for most webcams

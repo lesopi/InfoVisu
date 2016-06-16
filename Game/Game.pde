@@ -1,5 +1,7 @@
 import java.util.*;
 import processing.video.*;
+import processing.core.PVector;
+import papaya.*;
 
 Mover mover;
 PGraphics downBar;
@@ -88,7 +90,7 @@ void draw() {
     /*in this mode we want to drag the plate to move the ball
      */
     angleX = rotation.x; 
-    angleZ = rotation.y; 
+    angleZ = rotation.z; 
     //camera(width/2, height/2, 1000, width/2, height/2, 0, 0, 1, 0); 
     text("Rotation along X : " + degrees(angleX) + "   Rotation along Z" + degrees(angleZ) + "   Speed :" + speed, 30, 20); 
     //move the plate 
@@ -113,7 +115,7 @@ void draw() {
     mover.checkEdges();
     mover.checkCylinderCollision();
     mover.display();
-  }
+  } 
 }
 
 // Called every time a new frame is available to read
