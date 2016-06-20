@@ -30,15 +30,14 @@ void setup() {
   scoreDisplay = createGraphics(100, 100, P3D);
   barChart = createGraphics(600, 100, P3D);
 
-  cam = new Movie(this, "C:\\Users\\Sébastien\\Desktop\\EPFL\\BA4\\ProgVisu\\Projet\\Rendu Final\\Game\\data\\testvideo.mp4");
+  cam = new Movie(this, "testvideo.mp4");
   cam.loop();
 
-  img =  loadImage("C:\\Users\\Sébastien\\Desktop\\EPFL\\BA4\\ProgVisu\\Projet\\Rendu Final\\Game\\data\\board1.jpg");
+  img =  loadImage("board1.jpg");
 
   imgproc = new ImageProcessing();
   String []args = {"Image processing window"};
   PApplet.runSketch(args, imgproc);
-  //...
 }
 
 
@@ -89,9 +88,20 @@ void draw() {
   } else {
     /*in this mode we want to drag the plate to move the ball
      */
-    angleX = rotation.x; 
-    angleZ = rotation.z; 
-    //camera(width/2, height/2, 1000, width/2, height/2, 0, 0, 1, 0); 
+    // Setting the angles according to the video. Done it this way in order to make the transitions smoother. 
+    // If a difference between an angle and the next is too abrupt, we consider it a detection error, and only account it for a little part.
+    if (abs(rotation.x - angleX) < PI/3) {
+      angleX = 0.3*angleX + 0.7*rotation.x; 
+      angleX = rotation.x > 0 ? min(angleX, PI/3) : max(angleX, -PI/3);
+    } else {
+      angleX = 0.9*angleX + 0.1*rotation.x;
+    }
+    if (abs(rotation.z - angleZ) < PI/3) {
+      angleZ = 0.3*angleZ + 0.7*rotation.z; 
+      angleZ = rotation.z > 0 ? min(angleZ, PI/3) : max(angleZ, -PI/3);
+    } else {
+      angleZ = 0.9*angleZ + 0.1*rotation.z;
+    }
     text("Rotation along X : " + degrees(angleX) + "   Rotation along Z" + degrees(angleZ) + "   Speed :" + speed, 30, 20); 
     //move the plate 
 
@@ -115,39 +125,13 @@ void draw() {
     mover.checkEdges();
     mover.checkCylinderCollision();
     mover.display();
-  } 
+  }
 }
 
 // Called every time a new frame is available to read
 void movieEvent(Movie m) {
   m.read();
 }
-
-//not active in shiftMode, used to move the plate
-void mouseDragged() {
-  if (!shiftMode) {
-    float delta = (abs(mouseY - posY) - abs(mouseX - posX)); 
-    if (delta > 0) {
-      if (mouseY > posY && angleX <= PI/3) {
-        angleX = max(angleX - speed * PI/36, -PI/3);
-      }
-      if (mouseY < posY && angleX >= -PI/3) {
-        angleX = min(angleX + speed * PI/36, PI/3);
-      }
-    } else {
-      if (mouseX > posX && angleZ <= PI/3) {
-        angleZ = min(angleZ + speed * PI/36, PI/3);
-      }
-      if (mouseX < posX && angleZ >= -PI/3) {
-        angleZ = max(angleZ - speed * PI/36, -PI/3);
-      }
-    }
-
-    posX = mouseX; 
-    posY = mouseY;
-  }
-}
-
 
 
 //not active in shiftMode, used to change the speed of the plate rotation

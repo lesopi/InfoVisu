@@ -1,4 +1,3 @@
-
 class Mover {
   // properties of the ball
   PVector location;
@@ -26,10 +25,10 @@ class Mover {
     fill(255, 0, 0);
     sphere(radius);
   }
-  
-  void displayShift(){
+
+  void displayShift() {
     translate(mover.location.x, mover.location.z, mover.location.y);
-    fill(255,0,0);
+    fill(255, 0, 0);
     sphere(radius);
   }
 

@@ -3,11 +3,10 @@ public class ImageProcessing extends PApplet {
   TwoDThreeD t23;
 
   public void settings() {
-    size(800, 600);
+    size(cam.get().width, cam.get().height);
   }
 
   public void setup() {
-    //  img = loadImage("C:\\Users\\Sébastien\\Desktop\\EPFL\\BA4\\ProgVisu\\Projet\\Rendu Final\\Game\\data\\board3.jpg");
   }
 
   public void draw() {
@@ -45,7 +44,7 @@ public class ImageProcessing extends PApplet {
     blurResult.updatePixels(); 
 
     PImage sobel = sobel(blurResult);
-    image(sobel, 0, 0);
+    image(img, 0, 0);
 
 
     ArrayList<PVector> lines = hough(sobel, 6);
@@ -57,10 +56,10 @@ public class ImageProcessing extends PApplet {
     List<int[]> quads = graph.findCycles(); 
 
     int[] bestQuad = {0, 0, 0, 0};
-    if(quads.size() > 0){
-      bestQuad = quads.get(0); 
+    if (quads.size() > 0) {
+      bestQuad = quads.get(0);
     }
-    
+
 
     float maxArea = 0; 
     for (int[] quad : quads) {
@@ -343,9 +342,8 @@ public class ImageProcessing extends PApplet {
         float y = (-line2.x*cos(line1.y) + line1.x*cos(line2.y))/d;
 
         if (x > 0 && y > 0 && x < w && y < h ) {
-          // println("(" + x + ", " + y + ")");   
-          //    fill(255, 128, 0);
-          //    ellipse(x, y, 10, 10);
+          fill(255, 128, 0);
+          ellipse(x, y, 10, 10);
           PVector ret = new PVector(x, y);
           intersections.add(ret);
         }

@@ -28,7 +28,7 @@ void drawScore() {
   scoreDisplay.beginDraw();
   scoreDisplay.background(236, 250, 177);
   scoreDisplay.fill(0);
-  scoreDisplay.text("Total score \n: "+score+"\n\nVelocity:\n"+mover.velocity.mag()+"\n\nLast score:\n"+previousScore, 10, 10);
+  scoreDisplay.text("\nTotal score: \n "+score+"\nVelocity:\n "+mover.velocity.mag()+"\nLast score:\n "+previousScore, 10, 10);
   scoreDisplay.endDraw();
 }
 
@@ -42,12 +42,12 @@ void drawbarChart() {
     carre.add((int)score/valueSquare);
   }
   int size = carre.size();
-  for (int i = size-1; i >=Math.max(0,size-numberToDisplay); --i) {
-      for (int j = 0; j < carre.get(i); ++j) {
-        barChart.fill(0, 0, 255);
-        barChart.rect(0+(i-Math.max(0,size-numberToDisplay))*widthChart, 67-Math.min(j*heightChart,80), widthChart, heightChart);
-      }
+  for (int i = size-1; i >=Math.max(0, size-numberToDisplay); --i) {
+    for (int j = 0; j < carre.get(i); ++j) {
+      barChart.fill(0, 0, 255);
+      barChart.rect(0+(i-Math.max(0, size-numberToDisplay))*widthChart, 67-Math.min(j*heightChart, 80), widthChart, heightChart);
     }
-    
+  }
+
   barChart.endDraw();
 }

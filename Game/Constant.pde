@@ -42,9 +42,9 @@ float[][] hKernel = { { 0, 1, 0 },
 float[][] vKernel = { { 0, 0, 0 }, 
   { 1, 0, -1 }, 
   { 0, 0, 0 } };
-  
-  ArrayList<PVector> intersections;
-  QuadGraph graph = new QuadGraph();
+
+ArrayList<PVector> intersections;
+QuadGraph graph = new QuadGraph();
 
 boolean stat = false;
 
@@ -52,8 +52,11 @@ boolean stat = false;
 
 PImage img; 
 //represent fow rotated is the plate in direction X or Z
-float angleX; 
-float angleZ; 
+float angleX = 0; 
+float angleZ = 0; 
+
+float nextAngleX; 
+float nextAngleZ; 
 
 //change the speed of the rotation of the plate
 float speed = 1.0; 

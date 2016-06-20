@@ -49,12 +49,12 @@ void make() {
 }
 
 
- /*
+/*
  * pX, pY, pZ: the position where we want the (bottom) center of the cylinder to be
  * shift: if we are in shift mode we need to rotate the cylinder
  */
 void drawCylinder(float pX, float pY, float pZ, boolean shift) {
- 
+
   pushMatrix();
   translate(pX, pY, pZ);
 
